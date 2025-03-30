@@ -1,0 +1,253 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Hind Vadodara", sans-serif;
+}
+
+:root {
+  --light: #e5e5e5;
+  --white: #ffffff;
+  --dark: #000000;
+  --primary: #14213d;
+  --secondary: #fca311;
+  --blur: rgba(255, 255, 255, 0.5);
+  --blur_dark: rgb(0, 0, 0, 0.5);
+}
+
+body {
+  overflow-x: hidden;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+
+.container {
+  width: 100vw;
+  background-color: var(--light);
+}
+
+/* styles for the firsft into section */
+
+.intro_1 {
+  width: 100vw;
+  height: 100vh;
+  background: url("./images/intro_1-2.jpg");
+  /* background-position: center; */
+  background-size: 100%;
+}
+
+.intro_1 .nav_1 {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  position: fixed;
+  top: 0px;
+  height: 100px;
+  background-color: var(--blur);
+}
+
+.intro_1 .nav_1 .right {
+  width: 50vw;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 30px;
+}
+
+.intro_1 .nav_1 .right h1 {
+  text-transform: capitalize;
+  color: var(--primary);
+}
+
+.intro_1 .nav_1 .left {
+  width: 50vw;
+  padding: 30px;
+  display: flex;
+  gap: 10px;
+  justify-content: right;
+}
+
+.intro_1 .nav_1 .left a {
+  text-decoration: none;
+  color: var(--light);
+  height: 45px;
+  text-align: center;
+  background-color: var(--primary);
+  padding: 10px;
+  transition: 0.7s;
+}
+
+.intro_1 .nav_1 .left a:hover {
+  background-color: var(--white);
+  color: var(--primary);
+}
+
+.intro_1 .msg {
+  width: 50vw;
+  padding: 40px;
+  height: 40%;
+  color: var(--white);
+  position: relative;
+  top: 300px;
+  background-color: var(--blur_dark);
+  display: flex;
+  flex-direction: column;
+
+  justify-content: left;
+}
+
+/* Styles for the first abpoput section */
+
+.About_1 {
+  width: 100vw;
+  height: 100vh;
+  padding: 30px;
+}
+
+.About_1 h1 {
+  text-align: center;
+  padding-bottom: 10px;
+  color: var(--secondary);
+}
+
+.About_1 .about {
+  display: flex;
+  width: 95vw;
+  margin: auto;
+  flex-direction: row;
+  background-color: var(--white);
+  gap: 20px;
+}
+
+.About_1 .about .left {
+  width: 50vw;
+}
+
+.About_1 .about .left img {
+  width: 100%;
+  height: 100%;
+}
+
+.About_1 .about .right {
+  width: 50vw;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.About_1 .about .right p {
+  font-size: 16px;
+}
+
+/* styles for rhe first contacts section */
+
+.contacts_1 {
+  padding: 30px;
+  width: 100vw;
+  height: 90vh;
+  background-color: var(--white);
+}
+
+.contacts_1 h1 {
+  text-align: center;
+  margin: 20px;
+  color: var(--secondary);
+}
+
+.contacts {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+}
+
+.contacts_1 .block {
+  width: 400px;
+  padding: 0px;
+  height: 400px;
+  background-color: var(--light);
+}
+
+.contacts_1 .block p {
+  padding: 20px;
+  color: var(--primary);
+  font-size: 20px;
+}
+
+.contacts_1 .block img {
+  width: 100%;
+}
+/* style for the poster_! */
+.poster_1 {
+  width: 100vw;
+  height: 100vh;
+  background: url("./images/poster.jpg");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position-y: -100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.poster_1 h1 {
+  font-size: 50px;
+  padding: 40px;
+  background-color: var(--blur_dark);
+  color: var(--white);
+  margin: auto;
+}
+
+/* styles for the first services section */
+.services_1 {
+  width: 100vw;
+  height: 90vh;
+  padding: 30px;
+  background-color: var(--light);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+}
+
+.services_1 h1 {
+  text-align: center;
+  color: var(--secondary);
+}
+
+.services {
+  display: flex;
+  flex-direction: row;
+  gap: 60px;
+  justify-content: center;
+}
+
+.services_1 .service {
+  width: 550px;
+  height: 200px;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.services_1 .service .left {
+  width: 50%;
+  height: 100%;
+}
+
+.services_1 .service .left img {
+  /* width: 100%; */
+  height: 100%;
+}
+
+.services_1 .service .right {
+  width: 50%;
+  padding: 10px;
+  height: 100%;
+}
+
+.services_1 .service .right h1 {
+  font-size: 20px;
+}

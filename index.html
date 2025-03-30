@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GrapesJS Drag and Drop Editor</title>
+    <!-- Include GrapesJS styles -->
+    <link
+      href="https://unpkg.com/grapesjs/dist/css/grapes.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f4f4f4;
+        font-family: "Open Sans", sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      #gjs {
+        height: 100vh;
+      }
+
+      button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        margin: 10px;
+        cursor: pointer;
+        font-family: "Open Sans", sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Container for the editor -->
+  
+    <div id="gjs"></div>
+      <button id="save-data">Save</button>
+<button id="load-data">Load</button>  
+
+    <!-- Include GrapesJS script -->
+    <script src="https://unpkg.com/grapesjs"></script>
+    <script>
+      // Initialize GrapesJS editor
+      
+
+      var editor = grapesjs.init({
+        container: "#gjs",
+        height: "100vh",
+        storageManager: {
+            id: 'gjs-',             // Prefix identifier that will be used inside storing and loading
+            type: 'local',          // Type of the storage
+            autosave: false,        // Store data automatically
+            autoload: false,        // Autoload stored data on init
+            stepsBeforeSave: 1,     // If autosave enabled, indicates how many changes are necessary before store method is triggered
+        },
+        plugins: ["gjs-preset-webpage"],
+        pluginsOpts: {
+          "gjs-preset-webpage": {
+            modalImportTitle: "Import Template",
+            modalImportButton: "Import",
+            modalImportLabel: "",
+            modalImportContent: "",
+            importViewerOptions: {},
+          },
+        },
+        assetManager: {
+            upload: 'upload.php', // URL to the server-side script
+            uploadName: 'files',
+            multiUpload: true,
+            assets: []
+          
+        },
+      });
+
+      
+      // Function to add a new page
+      function addPage() {
+        var newPage = editor.DomComponents.addComponent({
+          tagName: "div",
+          removable: true,
+          draggable: true,
+          highlightable: true,
+          copyable: true,
+          content: "",
+          style: {
+            "min-height": "100vh",
+            backgroundColor: "white",
+            color: "black",
+            padding: "20px",
+          },
+        });
+        
+        editor.Panels.addButton("options", [
+          {
+            id: "post-data",
+            className: "btn-open-export",
+            label: "Publish",
+            command: "export-zip-command",
+          },
+        ]);
+                  
+        
+        const postDataButton = document.getElementById('post-data');
+        // Command to handle the ZIP export
+        editor.Commands.add("export-zip-command", {
+          
+          run: postDataButton.addEventListener('click', function() {
+        const html = editor.getHtml();
+        const css = editor.getCss();
+
+        fetch('post_receiver.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({html: html, css: css})
+        })
+        .then(response => response.json())
+        .then(data => console.log('Success:', data))
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+     }),
+    });
+        
+        editor.select(newPage);
+
+        const jsonData = [
+          {
+            id: "1",
+            name: "Text Block",
+            content: "<div class='text-block'>Custom Text Block</div>",
+          },
+          {
+            id: "2",
+            name: "into sectiion",
+            content: `<<div class='intro_1'> <div class='nav_1'> <div class='right'><h1>Fashion - Africa</h1></div> <div class='left'><a href='#'>Home</a> <a href='#'>About</a> <a href='#'>Contacts</a></div> </div> <div class='msg'><h1>Welcome To Fashion Africa</h1> <p> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error repellendus iure voluptatum eum doloremque expedita accusamus mollitia, atque odit explicabo.</p></div></div>`,
+            style: `
+                    color: red;
+ 
+            `,
+          },
+        ];
+
+        jsonData.forEach((component) => {
+          editor.BlockManager.add(`block-${component.id}`, {
+            label: component.name,
+            content: component.content,
+            category: "Basic",
+          });
+        });
+         editor.on('asset:upload:response', function(response) {
+        console.log('Upload successful', response);
+    });
+        editor.BlockManager.add(`block-${component.id}`, {
+          label: component.name,
+          content: {
+            type: "custom-type",
+            content: component.content,
+            style: component.style,
+            attributes: component.attributes,
+          },
+          category: "Basic",
+        });
+      }
+
+      // Function to export project as HTML and CSS files in a zip folder
+      function exportProject() {
+        var pages = editor.DomComponents.getComponents().filter(function (
+          component
+        ) {
+          return component.get("tagName") === "DIV";
+        });
+
+        var zip = new JSZip();
+
+        pages.forEach(function (page, index) {
+          var pageHtml = page.toHTML();
+          var pageCss = editor.CssComposer.getAll().reduce(function (
+            css,
+            rule
+          ) {
+            return css + rule.toCSS();
+          },
+          "");
+
+          zip.file(
+            "page_" + index + ".html",
+            "<html><head><style>" +
+              pageCss +
+              "</style></head><body>" +
+              pageHtml +
+              "</body></html>"
+          );
+        });
+
+        zip.generateAsync({ type: "blob" }).then(function (content) {
+          saveAs(content, "project.zip");
+        });
+      }
+       document.getElementById('save-data').addEventListener('click', function() {
+        editor.store();
+        alert('Data saved!');
+    });
+
+    document.getElementById('load-data').addEventListener('click', function() {
+        editor.load();
+        alert('Data loaded!');
+    });
+      // Call the addPage function to create a default page when the editor is initialized
+      addPage();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <!-- Include JSZip for creating zip files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
+  </body>
+</html>

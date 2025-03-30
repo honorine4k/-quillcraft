@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GrapesJS Complete Drag and Drop Editor</title>
+    <!-- Include GrapesJS styles -->
+    <link
+      href="https://unpkg.com/grapesjs/dist/css/grapes.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      #gjs {
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Container for the editor -->
+    <div id="gjs">
+      <div data-gjs-blocks="basic"></div>
+    </div>
+
+    <!-- Include GrapesJS script -->
+    <script src="https://unpkg.com/grapesjs"></script>
+    <script>
+      var editor = grapesjs.init({
+        container: "#gjs",
+        height: "100vh",
+        storageManager: { type: null },
+        plugins: ["gjs-blocks-basic"],
+        pluginsOpts: {
+          "gjs-blocks-basic": {
+            blocks: [
+              {
+                id: "my-custom-element-1",
+                label: "Custom Element 1",
+                content: `<div class="my-custom-element-1">
+                  This is a custom element 1
+                </div>`,
+                style: {
+                  backgroundColor: "lightblue",
+                  padding: "10px",
+                  borderRadius: "5px",
+                  color: "white",
+                  fontWeight: "bold",
+                  textAlign: "center",
+                },
+              },
+              {
+                id: "my-custom-element-2",
+                label: "Custom Element 2",
+                content: `<div class="my-custom-element-2">
+                  This is a custom element 2
+                </div>`,
+                style: {
+                  backgroundColor: "pink",
+                  padding: "10px",
+                  borderRadius: "5px",
+                  color: "white",
+                  fontWeight: "bold",
+                  textAlign: "center",
+                },
+              },
+            ],
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
